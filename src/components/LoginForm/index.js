@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import Cookies from 'js-cookie'
 import {
   MainLoginPage,
   InputSection,
@@ -11,10 +12,46 @@ import {
   CheckBoxInput,
   LabelCheckbox,
   LoginButton,
+  ErrorMessage,
 } from './styledComponent'
 
 class LoginForm extends Component {
-  state = {username: '', password: '', showPassword: 'false', allColor: false}
+  state = {
+    username: '',
+    password: '',
+    errorView: false,
+    showPassword: false,
+    allColor: false,
+    errorMsgText: '',
+  }
+
+  onSuccessLogin = jwtToken => {
+    Cookies.set('jwt_token', jwtToken, {expires: 30})
+  }
+
+  onErrorResponse = errorMsg => {
+    this.setState({errorView: true, errorMsgText: errorMsg})
+  }
+
+  onSubmitForm = async event => {
+    event.preventDefault()
+    const {username, password} = this.state
+    console.log(password)
+    const userDetails = {username, password}
+    const loginUrl = 'https://apis.ccbp.in/login'
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(userDetails),
+    }
+    const response = await fetch(loginUrl, options)
+
+    const data = await response.json()
+    if (response.ok === true) {
+      this.onSuccessLogin(data.jwt_token)
+    } else {
+      this.onErrorResponse(data.error_msg)
+    }
+  }
 
   onChangeUsername = event => {
     this.setState({username: event.target.value})
@@ -22,6 +59,10 @@ class LoginForm extends Component {
 
   onChangePassword = event => {
     this.setState({password: event.target.value})
+  }
+
+  onClickCheck = () => {
+    this.setState(prevState => ({showPassword: !prevState.showPassword}))
   }
 
   renderUsername = () => {
@@ -36,7 +77,7 @@ class LoginForm extends Component {
           id="username"
           type="text"
           placeholder="Username"
-          omChange={this.onChangeUsername}
+          onChange={this.onChangeUsername}
         />
       </>
     )
@@ -49,13 +90,13 @@ class LoginForm extends Component {
     return (
       <>
         <TextValueInput textColor={allColor} htmlFor="password">
-          USERNAME
+          PASSWORD
         </TextValueInput>
         <InputValueLogin
           value={password}
           id="password"
           type={selectedType}
-          placeholder="Username"
+          placeholder="Password"
           onChange={this.onChangePassword}
         />
       </>
@@ -63,7 +104,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const {allColor} = this.state
+    const {allColor, errorView, errorMsgText} = this.state
     const logoUrl = allColor
       ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
@@ -71,14 +112,19 @@ class LoginForm extends Component {
       <MainLoginPage>
         <InputSection>
           <LogoInput src={logoUrl} alt="nxt watch logo" />
-          <FormSection>
+          <FormSection onSubmit={this.onSubmitForm}>
             <TwoSections>{this.renderUsername()}</TwoSections>
             <TwoSections>{this.renderPassword()}</TwoSections>
             <CheckBoxSection>
-              <CheckBoxInput type="checkbox" id="checkbox" />
+              <CheckBoxInput
+                onChange={this.onClickCheck}
+                type="checkbox"
+                id="checkbox"
+              />
               <LabelCheckbox htmlFor="checkbox">Show Passwords</LabelCheckbox>
             </CheckBoxSection>
             <LoginButton type="submit">Login</LoginButton>
+            {errorView && <ErrorMessage>*{errorMsgText}</ErrorMessage>}
           </FormSection>
         </InputSection>
       </MainLoginPage>

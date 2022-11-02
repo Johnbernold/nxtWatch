@@ -8,8 +8,8 @@ export const MainLoginPage = styled.div`
   align-items: center;
 `
 export const InputSection = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 300px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@ export const InputSection = styled.div`
   background-color: #ffffff;
   box-shadow: 0px 4px 16px 0px #bfbfbf;
 `
-export const FormSection = styled.div`
+export const FormSection = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -41,6 +41,7 @@ export const TextValueInput = styled.label`
 `
 export const InputValueLogin = styled.input`
   width: 100%;
+  height: 30px;
 `
 
 export const CheckBoxSection = styled.div`
@@ -60,10 +61,18 @@ export const LoginButton = styled.button`
   font-family: 'Roboto';
   color: #ffffff;
   background-color: #4f46e5;
-  padding: 10px;
+  padding: 6px;
   border: none;
   border-radius: 4px;
+  margin-top: 10px;
 `
 export const CheckBoxInput = styled.input`
   width: 10px;
+`
+export const ErrorMessage = styled.p`
+  font-size: 10px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  color: #ff0000;
+  margin-top: 10px;
 `
