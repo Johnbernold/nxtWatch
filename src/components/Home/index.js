@@ -1,3 +1,5 @@
-const Home = () => <h1>Home</h1>
+import Navbar from '../Navbar'
+
+const Home = () => <Navbar />
 
 export default Home

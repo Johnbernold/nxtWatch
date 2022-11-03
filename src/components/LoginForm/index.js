@@ -21,7 +21,7 @@ class LoginForm extends Component {
     password: '',
     errorView: false,
     showPassword: false,
-    allColor: false,
+    allColor: true,
     errorMsgText: '',
   }
 
@@ -69,7 +69,11 @@ class LoginForm extends Component {
     const {username, allColor} = this.state
     return (
       <>
-        <TextValueInput textColor={allColor} htmlFor="username">
+        <TextValueInput
+          color={allColor}
+          textColor={allColor}
+          htmlFor="username"
+        >
           USERNAME
         </TextValueInput>
         <InputValueLogin
@@ -78,6 +82,7 @@ class LoginForm extends Component {
           type="text"
           placeholder="Username"
           onChange={this.onChangeUsername}
+          bgColor={allColor}
         />
       </>
     )
@@ -89,7 +94,11 @@ class LoginForm extends Component {
     const selectedType = showPassword ? 'text' : 'password'
     return (
       <>
-        <TextValueInput textColor={allColor} htmlFor="password">
+        <TextValueInput
+          color={allColor}
+          textColor={allColor}
+          htmlFor="password"
+        >
           PASSWORD
         </TextValueInput>
         <InputValueLogin
@@ -98,6 +107,7 @@ class LoginForm extends Component {
           type={selectedType}
           placeholder="Password"
           onChange={this.onChangePassword}
+          bgColor={allColor}
         />
       </>
     )
@@ -109,8 +119,8 @@ class LoginForm extends Component {
       ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
     return (
-      <MainLoginPage>
-        <InputSection>
+      <MainLoginPage bgColor={allColor}>
+        <InputSection bgColor={allColor}>
           <LogoInput src={logoUrl} alt="nxt watch logo" />
           <FormSection onSubmit={this.onSubmitForm}>
             <TwoSections>{this.renderUsername()}</TwoSections>
@@ -121,7 +131,9 @@ class LoginForm extends Component {
                 type="checkbox"
                 id="checkbox"
               />
-              <LabelCheckbox htmlFor="checkbox">Show Passwords</LabelCheckbox>
+              <LabelCheckbox color={allColor} htmlFor="checkbox">
+                Show Passwords
+              </LabelCheckbox>
             </CheckBoxSection>
             <LoginButton type="submit">Login</LoginButton>
             {errorView && <ErrorMessage>*{errorMsgText}</ErrorMessage>}
