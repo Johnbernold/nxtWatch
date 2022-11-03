@@ -10,13 +10,13 @@ import {
 } from './styledComponent'
 
 const Navbar = () => {
-  const allColor = false
+  const allColor = true
   const navLogo = allColor
     ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
     : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
 
   return (
-    <NavbarSection>
+    <NavbarSection bgColor={allColor}>
       <MainLogoNav src={navLogo} alt="website logo" />
       <NavbarSideSection>
         <ThemeButton type="button">
@@ -27,7 +27,9 @@ const Navbar = () => {
           alt="profile"
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png "
         />
-        <LogoutButton type="button">Logout</LogoutButton>
+        <LogoutButton color={allColor} type="button">
+          Logout
+        </LogoutButton>
       </NavbarSideSection>
     </NavbarSection>
   )

@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {
   MainLoginPage,
@@ -26,7 +27,9 @@ class LoginForm extends Component {
   }
 
   onSuccessLogin = jwtToken => {
+    const {history} = this.props
     Cookies.set('jwt_token', jwtToken, {expires: 30})
+    history.replace('/')
   }
 
   onErrorResponse = errorMsg => {
@@ -118,6 +121,12 @@ class LoginForm extends Component {
     const logoUrl = allColor
       ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
+    const token = Cookies.get('jwt_token')
+    if (token !== undefined) {
+      return <Redirect to="/" />
+    }
+
     return (
       <MainLoginPage bgColor={allColor}>
         <InputSection bgColor={allColor}>

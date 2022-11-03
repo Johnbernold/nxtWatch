@@ -1,5 +1,11 @@
 import Navbar from '../Navbar'
+import SlideBarSection from '../SlidebarSection'
 
-const Home = () => <Navbar />
+const Home = () => (
+  <>
+    <Navbar />
+    <SlideBarSection />
+  </>
+)
 
 export default Home
