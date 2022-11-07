@@ -34,15 +34,9 @@ const SlideBarSection = () => (
       let icon = ''
 
       if (selectedSlideBar === slideBarText.home) {
-        if (themeValue === true) {
-          color = '#f1f5f9'
-          bgColor = '#383838'
-          icon = 'red-color'
-        } else {
-          color = '#000000'
-          bgColor = '#cbd5e1'
-          icon = 'red-color'
-        }
+        color = themeValue ? '#f1f5f9' : '#000000'
+        bgColor = themeValue ? '#383838' : '#cbd5e1'
+        icon = 'red-color'
       }
 
       return (
