@@ -2,7 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 
 import {AiOutlineClose, AiOutlineSearch} from 'react-icons/ai'
-
+import VideoItems from '../VideoItems'
 import {
   MainHomeSection,
   HomeSection,
@@ -30,6 +30,10 @@ const viewDisplay = {
   failure: 'FAILURE',
   none: 'NONE',
 }
+
+const logoUrl = allColor
+  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
 
 class Home extends Component {
   state = {
@@ -76,11 +80,23 @@ class Home extends Component {
         viewCount: eachItem.view_count,
         publishedAt: eachItem.published_at,
       }))
+
+      this.setState({
+        selectedVideos: HomeVideos,
+        selectedView: viewDisplay.success,
+      })
+    } else {
+      this.setState({selectedView: viewDisplay.failure})
     }
   }
 
   onChangeSearch = event => {
     this.setState({searchValue: event.target.value})
+  }
+
+  onClickValue = () => {
+    const {searchValue} = this.state
+    this.setState({searchText: searchValue}, this.getHomeApi)
   }
 
   searchSection = () => {
@@ -94,42 +110,73 @@ class Home extends Component {
           value={searchValue}
         />
 
-        <SearchButton bgColor={allColor} type="button">
+        <SearchButton
+          onClick={this.onClickValue}
+          bgColor={allColor}
+          type="button"
+        >
           <AiOutlineSearch />
         </SearchButton>
       </SearchSectionDisplay>
     )
   }
 
-  render() {
-    const {bannerView} = this.state
-    const logoUrl = allColor
-      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+  renderSuccess = () => {
+    const {selectedVideos} = this.state
 
     return (
-      <MainHomeSection bgColor={allColor}>
-        <Navbar />
-        <HomeSection>
-          <SlideBarSection />
-          <HomeDisplaySection>
-            {bannerView && (
-              <BannerHome>
-                <BannerTextSection>
-                  <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
-                  <ParaBanner>Buy Nxt Watch Premium plans with UPI</ParaBanner>
-                  <BannerHomeButton>GET IT NOW</BannerHomeButton>
-                </BannerTextSection>
-                <BannerCloseButton>
-                  <AiOutlineClose />
-                </BannerCloseButton>
-              </BannerHome>
-            )}
-            {this.searchSection()}
-            <HomeVideosDisplay>john</HomeVideosDisplay>
-          </HomeDisplaySection>
-        </HomeSection>
-      </MainHomeSection>
+      <HomeVideosDisplay>
+        {selectedVideos.map(eachItem => (
+          <VideoItems videoSectionValue={eachItem} key={eachItem.id} />
+        ))}
+      </HomeVideosDisplay>
+    )
+  }
+
+  renderMainSectionHome = () => {
+    const {selectedView} = this.state
+    switch (selectedView) {
+      case viewDisplay.success:
+        return this.renderSuccess()
+      case viewDisplay.failure:
+        return this.renderFailure()
+      case viewDisplay.inProgress:
+        return this.renderInprogress()
+      default:
+        return null
+    }
+  }
+
+  render() {
+    const {bannerView} = this.state
+
+    return (
+      <>
+        <MainHomeSection bgColor={allColor}>
+          <Navbar />
+          <HomeSection>
+            <SlideBarSection />
+            <HomeDisplaySection>
+              {bannerView && (
+                <BannerHome>
+                  <BannerTextSection>
+                    <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
+                    <ParaBanner>
+                      Buy Nxt Watch Premium plans with UPI
+                    </ParaBanner>
+                    <BannerHomeButton>GET IT NOW</BannerHomeButton>
+                  </BannerTextSection>
+                  <BannerCloseButton>
+                    <AiOutlineClose />
+                  </BannerCloseButton>
+                </BannerHome>
+              )}
+              {this.searchSection()}
+              {this.renderMainSectionHome()}
+            </HomeDisplaySection>
+          </HomeSection>
+        </MainHomeSection>
+      </>
     )
   }
 }

@@ -5,7 +5,6 @@ export const MainHomeSection = styled.div`
   flex-direction: column;
   background-color: ${props => (props.bgColor ? '#181818' : ' #f9f9f9 ')};
 `
-
 export const HomeSection = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,7 +20,6 @@ export const BannerHome = styled.div`
   background-size: cover;
   height: 200px;
   width: 100%;
-
   padding: 15px;
   display: flex;
   flex-direction: row;
@@ -55,8 +53,14 @@ export const BannerHomeButton = styled.button`
   background-color: transparent;
 `
 
-export const HomeVideosDisplay = styled.div`
+export const HomeVideosDisplay = styled.ul`
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-left: 12px;
+  height: 140vh;
+  overflow-y: auto;
 `
 export const BannerCloseButton = styled.button`
   width: 30px;
@@ -68,6 +72,7 @@ export const SearchSectionDisplay = styled.div`
   display: flex;
   flex-direction: row;
   margin: 15px;
+  margin-bottom: 0px;
 `
 export const SearchInput = styled.input`
   width: 300px;
