@@ -40,7 +40,7 @@ const SlideBarSection = () => (
       }
 
       return (
-        <SlideMainSection>
+        <SlideMainSection bgColor={themeValue}>
           <UnorderedSlide>
             <ListSlide bgColor={bgColor}>
               <AiFillHome className={`icon-all ${icon}`} />

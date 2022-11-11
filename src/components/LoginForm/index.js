@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
+import NxtWatchContext from '../../context/NxtWatchContext'
 import {
   MainLoginPage,
   InputSection,
@@ -117,38 +118,45 @@ class LoginForm extends Component {
   }
 
   render() {
-    const {allColor, errorView, errorMsgText} = this.state
-    const logoUrl = allColor
-      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-
-    const token = Cookies.get('jwt_token')
-    if (token !== undefined) {
-      return <Redirect to="/" />
-    }
-
     return (
-      <MainLoginPage bgColor={allColor}>
-        <InputSection bgColor={allColor}>
-          <LogoInput src={logoUrl} alt="nxt watch logo" />
-          <FormSection onSubmit={this.onSubmitForm}>
-            <TwoSections>{this.renderUsername()}</TwoSections>
-            <TwoSections>{this.renderPassword()}</TwoSections>
-            <CheckBoxSection>
-              <CheckBoxInput
-                onChange={this.onClickCheck}
-                type="checkbox"
-                id="checkbox"
-              />
-              <LabelCheckbox color={allColor} htmlFor="checkbox">
-                Show Passwords
-              </LabelCheckbox>
-            </CheckBoxSection>
-            <LoginButton type="submit">Login</LoginButton>
-            {errorView && <ErrorMessage>*{errorMsgText}</ErrorMessage>}
-          </FormSection>
-        </InputSection>
-      </MainLoginPage>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {themeValue} = value
+          const {errorView, errorMsgText} = this.state
+          const logoUrl = themeValue
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
+          const token = Cookies.get('jwt_token')
+          if (token !== undefined) {
+            return <Redirect to="/" />
+          }
+
+          return (
+            <MainLoginPage bgColor={themeValue}>
+              <InputSection bgColor={themeValue}>
+                <LogoInput src={logoUrl} alt="nxt watch logo" />
+                <FormSection onSubmit={this.onSubmitForm}>
+                  <TwoSections>{this.renderUsername()}</TwoSections>
+                  <TwoSections>{this.renderPassword()}</TwoSections>
+                  <CheckBoxSection>
+                    <CheckBoxInput
+                      onChange={this.onClickCheck}
+                      type="checkbox"
+                      id="checkbox"
+                    />
+                    <LabelCheckbox color={themeValue} htmlFor="checkbox">
+                      Show Passwords
+                    </LabelCheckbox>
+                  </CheckBoxSection>
+                  <LoginButton type="submit">Login</LoginButton>
+                  {errorView && <ErrorMessage>*{errorMsgText}</ErrorMessage>}
+                </FormSection>
+              </InputSection>
+            </MainLoginPage>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

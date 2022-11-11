@@ -6,8 +6,7 @@ export const SlideMainSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  background-color: ${props => (props.bgColor ? '#212121' : '#ffffff')};
+  background-color: ${props => (props.bgColor ? '#212121' : '#f9f9f9')};
 `
 
 export const UnorderedSlide = styled.ul`

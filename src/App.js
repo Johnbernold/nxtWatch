@@ -32,7 +32,7 @@ class App extends Component {
           changeTheme: this.changeTheme,
         }}
       >
-        return (
+        return(
         <>
           <Switch>
             <Route exact path="/login" component={LoginForm} />
