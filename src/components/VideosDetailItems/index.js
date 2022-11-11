@@ -2,7 +2,7 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import ReactPlayer from 'react-player'
 
-import {} from './styledComponent'
+import {MainVideoPlayerSection} from './styledComponent'
 
 const videoDisplayItem = {
   success: 'SUCCESS',
@@ -25,6 +25,8 @@ class VideosDetailItems extends Component {
   })
 
   getVideoDetailApi = async () => {
+    this.setState({selectedView: videoDisplayItem.inProgress})
+
     const jwtToken = Cookies.get('jwt_token')
 
     const options = {
@@ -51,14 +53,36 @@ class VideosDetailItems extends Component {
         publishedAt: videoValue.published_at,
         description: videoValue.description,
       }
+
+      this.setState({
+        selectedView: videoDisplayItem.success,
+        selectedVideo: videoDetails,
+      })
+    } else {
+      this.setState({selectedView: videoDisplayItem.failure})
     }
   }
 
   render() {
+    const {selectedVideo} = this.state
+
+    const {
+      id,
+      title,
+      videoUrl,
+      thumbnailUrl,
+      channel,
+      viewCount,
+      publishedAt,
+      description,
+    } = selectedVideo
+
+    const {name, profileImageUrl, subscriberCount} = channel
+    
     return (
       <MainVideoPlayerSection>
         <VideoPlayer>
-          <ReactPlayer url={} />
+          <ReactPlayer url={videoUrl} />
         </VideoPlayer>
         <VideoHeading>{}</VideoHeading>
         <VideoIconsAndViewsSection>
@@ -78,3 +102,5 @@ class VideosDetailItems extends Component {
     )
   }
 }
+
+export default VideosDetailItems
