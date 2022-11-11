@@ -1,8 +1,10 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 
 import {AiOutlineClose, AiOutlineSearch} from 'react-icons/ai'
-import VideoItems from '../VideoItems'
+import NxtWatchContext from '../../context/NxtWatchContext'
+import HomeItems from '../HomeItems'
 import {
   MainHomeSection,
   HomeSection,
@@ -17,12 +19,21 @@ import {
   SearchSectionDisplay,
   SearchInput,
   SearchButton,
+  LoaderContainer,
+  FailureContainer,
+  FailureImage,
+  FailureHeading,
+  FailureText,
+  FailureRetryButton,
+  NoSearchResult,
+  NoResultImg,
+  NoSearchHeading,
+  NoSearchText,
+  NoSearchRetryButton,
 } from './styledComponent'
 
 import Navbar from '../Navbar'
 import SlideBarSection from '../SlidebarSection'
-
-const allColor = false
 
 const viewDisplay = {
   success: 'SUCCESS',
@@ -31,17 +42,13 @@ const viewDisplay = {
   none: 'NONE',
 }
 
-const logoUrl = allColor
-  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-
 class Home extends Component {
   state = {
+    searchValue: '',
+    searchText: '',
     selectedVideos: [],
     selectedView: viewDisplay.none,
     bannerView: true,
-    searchValue: '',
-    searchText: '',
   }
 
   componentDidMount() {
@@ -54,6 +61,10 @@ class Home extends Component {
   })
 
   getHomeApi = async () => {
+    this.setState({
+      selectedView: viewDisplay.inProgress,
+    })
+
     const {searchText} = this.state
 
     const jwtToken = Cookies.get('jwt_token')
@@ -90,6 +101,20 @@ class Home extends Component {
     }
   }
 
+  renderMainSectionHome = themeValue => {
+    const {selectedView} = this.state
+    switch (selectedView) {
+      case viewDisplay.success:
+        return this.renderSuccess(themeValue)
+      case viewDisplay.failure:
+        return this.renderFailure(themeValue)
+      case viewDisplay.inProgress:
+        return this.renderInprogress(themeValue)
+      default:
+        return null
+    }
+  }
+
   onChangeSearch = event => {
     this.setState({searchValue: event.target.value})
   }
@@ -99,20 +124,32 @@ class Home extends Component {
     this.setState({searchText: searchValue}, this.getHomeApi)
   }
 
-  searchSection = () => {
-    const searchValue = this.state
+  onClickBannerClose = () => {
+    this.setState({bannerView: false})
+  }
+
+  onClickFailure = () => {
+    this.getHomeApi()
+  }
+
+  onRetrySearch = () => {
+    this.getHomeApi()
+  }
+
+  searchSection = themeValue => {
+    const {searchValue} = this.state
     return (
       <SearchSectionDisplay>
         <SearchInput
-          onChange={this.onChangeSearch}
-          bgColor={allColor}
           placeholder="Search"
+          onChange={this.onChangeSearch}
+          bgColor={themeValue}
           value={searchValue}
         />
 
         <SearchButton
           onClick={this.onClickValue}
-          bgColor={allColor}
+          bgColor={themeValue}
           type="button"
         >
           <AiOutlineSearch />
@@ -121,62 +158,107 @@ class Home extends Component {
     )
   }
 
-  renderSuccess = () => {
+  renderSuccess = themeValue => {
     const {selectedVideos} = this.state
+    const checkForValue = selectedVideos.length === 0
+    return checkForValue ? (
+      <NoSearchResult>
+        <NoResultImg
+          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png "
+          alt=" no videos"
+        />
+        <NoSearchHeading Color={themeValue}>
+          No Search results found
+        </NoSearchHeading>
+        <NoSearchText Color={themeValue}>
+          Try different key words or remove search filter
+        </NoSearchText>
 
-    return (
+        <NoSearchRetryButton onClick={this.onRetrySearch} type="button">
+          Retry
+        </NoSearchRetryButton>
+      </NoSearchResult>
+    ) : (
       <HomeVideosDisplay>
         {selectedVideos.map(eachItem => (
-          <VideoItems videoSectionValue={eachItem} key={eachItem.id} />
+          <HomeItems videoSectionValue={eachItem} key={eachItem.id} />
         ))}
       </HomeVideosDisplay>
     )
   }
 
-  renderMainSectionHome = () => {
-    const {selectedView} = this.state
-    switch (selectedView) {
-      case viewDisplay.success:
-        return this.renderSuccess()
-      case viewDisplay.failure:
-        return this.renderFailure()
-      case viewDisplay.inProgress:
-        return this.renderInprogress()
-      default:
-        return null
-    }
+  renderFailure = themeValue => {
+    const failureUrl = themeValue
+      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+    return (
+      <FailureContainer>
+        <FailureImage src={failureUrl} alt="failure view" />
+        <FailureHeading Color={themeValue}>
+          Oops! Something Went Wrong
+        </FailureHeading>
+        <FailureText Color={themeValue}>
+          We are having some trouble to complete your request.
+        </FailureText>
+        <FailureText Color={themeValue}>Please yry again.</FailureText>
+        <FailureRetryButton onClick={this.onClickFailure} type="button">
+          Retry
+        </FailureRetryButton>
+      </FailureContainer>
+    )
   }
+
+  renderInprogress = () => (
+    <LoaderContainer>
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </LoaderContainer>
+  )
 
   render() {
     const {bannerView} = this.state
 
     return (
-      <>
-        <MainHomeSection bgColor={allColor}>
-          <Navbar />
-          <HomeSection>
-            <SlideBarSection />
-            <HomeDisplaySection>
-              {bannerView && (
-                <BannerHome>
-                  <BannerTextSection>
-                    <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
-                    <ParaBanner>
-                      Buy Nxt Watch Premium plans with UPI
-                    </ParaBanner>
-                    <BannerHomeButton>GET IT NOW</BannerHomeButton>
-                  </BannerTextSection>
-                  <BannerCloseButton>
-                    <AiOutlineClose />
-                  </BannerCloseButton>
-                </BannerHome>
-              )}
-              {this.searchSection()}
-              {this.renderMainSectionHome()}
-            </HomeDisplaySection>
-          </HomeSection>
-        </MainHomeSection>
-      </>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {themeValue} = value
+
+          const logoUrl = themeValue
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
+          return (
+            <>
+              <MainHomeSection bgColor={themeValue}>
+                <Navbar />
+                <HomeSection>
+                  <SlideBarSection />
+                  <HomeDisplaySection>
+                    {bannerView && (
+                      <BannerHome>
+                        <BannerTextSection>
+                          <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
+                          <ParaBanner>
+                            Buy Nxt Watch Premium plans with UPI
+                          </ParaBanner>
+                          <BannerHomeButton>GET IT NOW</BannerHomeButton>
+                        </BannerTextSection>
+                        <BannerCloseButton
+                          type="button"
+                          onClick={this.onClickBannerClose}
+                        >
+                          <AiOutlineClose />
+                        </BannerCloseButton>
+                      </BannerHome>
+                    )}
+                    {this.searchSection(themeValue)}
+                    {this.renderMainSectionHome(themeValue)}
+                  </HomeDisplaySection>
+                </HomeSection>
+              </MainHomeSection>
+            </>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

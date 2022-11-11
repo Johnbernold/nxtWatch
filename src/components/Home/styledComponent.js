@@ -89,3 +89,79 @@ export const SearchButton = styled.button`
   border-color: ${props => (props.bgColor ? '#7e858e' : '')};
   background-color: ${props => (props.bgColor ? '#909090' : '')};
 `
+
+export const LoaderContainer = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+export const FailureContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  height: 100vh;
+  width: 100%;
+`
+export const FailureImage = styled.img`
+  width: 400px;
+  height: 400px;
+`
+export const FailureHeading = styled.h1`
+  color: ${props => (props.Color ? ' #f8fafc' : '#212121')};
+  font-size: 20px;
+  font-family: 'Roboto';
+  font-weight: 500;
+`
+export const FailureText = styled.p`
+  color: ${props => (props.Color ? ' #606060' : '#909090')};
+  font-size: 14px;
+  font-family: 'Roboto';
+  font-weight: 500;
+`
+export const FailureRetryButton = styled.button`
+  color: '#f8fafc' 
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  background-color: #4f46e5;
+  padding:8px;
+`
+export const NoSearchResult = styled.div`
+  height: 100vh;
+  width: 100%;
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+`
+export const NoResultImg = styled.img`
+  width: 400px;
+  height: 400px;
+`
+export const NoSearchHeading = styled.h1`
+  color: ${props => (props.Color ? ' #f8fafc' : '#212121')};
+  font-size: 20px;
+  font-family: 'Roboto';
+  font-weight: 500;
+`
+export const NoSearchText = styled.p`
+  color: ${props => (props.Color ? ' #606060' : '#909090')};
+  font-size: 14px;
+  font-family: 'Roboto';
+  font-weight: 500;
+`
+export const NoSearchRetryButton = styled.button`
+  color: '#f8fafc' 
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  background-color: #4f46e5;
+  padding:8px;
+  border:none;
+  border-radius:2px;
+`

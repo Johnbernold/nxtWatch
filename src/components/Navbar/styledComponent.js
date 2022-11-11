@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const NavbarSection = styled.nav`
-  height: 20vh;
+  height: 15vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
