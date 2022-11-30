@@ -3,11 +3,40 @@ import Cookies from 'js-cookie'
 import ReactPlayer from 'react-player'
 import {formatDistanceToNow} from 'date-fns'
 import {BiLike, BiListPlus, BiDislike} from 'react-icons/bi'
+import Loader from 'react-loader-spinner'
+
+import NxtWatchContext from '../../context/NxtWatchContext'
+
+import Navbar from '../Navbar'
+import SlideBarSection from '../SlidebarSection'
+
+import './index.css'
 
 import {
   MainPageVideos,
+  VideoDisplaySection,
   MainVideoPlayerSection,
   VideoPlayer,
+  VideoHeading,
+  VideoIconsAndViewsSection,
+  ViewsSection,
+  NoOfViews,
+  DateMentionUl,
+  DateLi,
+  ButtonClick,
+  VideosLikeSection,
+  ProfileDetailsSection,
+  ProfilePhoto,
+  ProfileTextSection,
+  ChannelName,
+  SubscribtionText,
+  DescriptionText,
+  FailureContainer,
+  FailureImage,
+  FailureHeading,
+  FailureText,
+  FailureRetryButton,
+  LoaderContainer,
 } from './styledComponent'
 
 const videoDisplayItem = {
@@ -32,6 +61,10 @@ class VideosDetailItems extends Component {
 
   getVideoDetailApi = async () => {
     this.setState({selectedView: videoDisplayItem.inProgress})
+
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
 
     const jwtToken = Cookies.get('jwt_token')
 
@@ -69,77 +102,113 @@ class VideosDetailItems extends Component {
     }
   }
 
-  renderSuccess = () => {
-    const {selectedVideo} = this.state
+  onClickFailureVideos = () => {
+    this.getVideoDetailApi()
+  }
 
-    const {
-      id,
-      title,
-      videoUrl,
-      thumbnailUrl,
-      channel,
-      viewCount,
-      publishedAt,
-      description,
-    } = selectedVideo
+  renderSuccessVideos = () => {
+    ;<NxtWatchContext.Consumer>
+      {value => {
+        const {themeValue} = value
+        const {selectedVideo} = this.state
 
-    const yearsValue = formatDistanceToNow(new Date(publishedAt))
+        const {
+          title,
+          videoUrl,
+          channel,
+          viewCount,
+          publishedAt,
+          description,
+        } = selectedVideo
 
-    const {name, profileImageUrl, subscriberCount} = channel
+        const yearsValue = formatDistanceToNow(new Date(publishedAt))
 
+        const {name, profileImageUrl, subscriberCount} = channel
+
+        return (
+          <MainVideoPlayerSection>
+            <VideoPlayer>
+              <ReactPlayer url={videoUrl} />
+            </VideoPlayer>
+            <VideoHeading Color={themeValue}>{title}</VideoHeading>
+            <VideoIconsAndViewsSection>
+              <ViewsSection>
+                <NoOfViews Color={themeValue}>{viewCount} views</NoOfViews>
+                <DateMentionUl>
+                  <DateLi Color={themeValue}>{yearsValue}</DateLi>
+                </DateMentionUl>
+              </ViewsSection>
+
+              <VideosLikeSection>
+                <ButtonClick Color={themeValue}>
+                  <BiLike className="icon-videos" />
+                  Like
+                </ButtonClick>
+                <ButtonClick Color={themeValue}>
+                  <BiDislike className="icon-videos" />
+                  Dislike
+                </ButtonClick>
+                <ButtonClick Color={themeValue}>
+                  <BiListPlus className="icon-videos" />
+                  Save
+                </ButtonClick>
+              </VideosLikeSection>
+            </VideoIconsAndViewsSection>
+            <hr />
+            <ProfileDetailsSection>
+              <ProfilePhoto alt="channel logo." src={profileImageUrl} />
+              <ProfileTextSection>
+                <ChannelName Color={themeValue}>{name}</ChannelName>
+                <SubscribtionText Color={themeValue}>
+                  {subscriberCount} subscribers
+                </SubscribtionText>
+                <DescriptionText Color={themeValue}>
+                  {description}
+                </DescriptionText>
+              </ProfileTextSection>
+            </ProfileDetailsSection>
+          </MainVideoPlayerSection>
+        )
+      }}
+    </NxtWatchContext.Consumer>
+  }
+
+  renderFailureVideos = themeValue => {
+    const failureUrl = themeValue
+      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
     return (
-      <MainVideoPlayerSection>
-        <VideoPlayer>
-          <ReactPlayer url={videoUrl} />
-        </VideoPlayer>
-        <VideoHeading Color={themeValue}>{title}</VideoHeading>
-        <VideoIconsAndViewsSection>
-          <ViewsSection>
-            <NoOfViews Color={themeValue}>{viewCount} views</NoOfViews>
-            <DateMentionUl>
-              <DateLi Color={themeValue}>{yearsValue}</DateLi>
-            </DateMentionUl>
-          </ViewsSection>
-
-          <VideosLikeSection>
-            <ButtonClick Color={themeValue}>
-              <BiLike />
-              Like
-            </ButtonClick>
-            <ButtonClick Color={themeValue}>
-              <BiDislike />
-              Dislike
-            </ButtonClick>
-            <ButtonClick Color={themeValue}>
-              <BiListPlus />
-              Save
-            </ButtonClick>
-          </VideosLikeSection>
-        </VideoIconsAndViewsSection>
-        <hr />
-        <ProfileDetailsSection>
-          <ProfilePhoto alt="channel logo." src={profileImageUrl} />
-          <ProfileTextSection>
-            <ChannelName Color={themeValue}>{name}</ChannelName>
-            <SubscribtionText Color={themeValue}>
-              {subscriberCount} subscribers
-            </SubscribtionText>
-            <DescriptionText Color={themeValue}>{description}</DescriptionText>
-          </ProfileTextSection>
-        </ProfileDetailsSection>
-      </MainVideoPlayerSection>
+      <FailureContainer>
+        <FailureImage src={failureUrl} alt="failure view" />
+        <FailureHeading Color={themeValue}>
+          Oops! Something Went Wrong
+        </FailureHeading>
+        <FailureText Color={themeValue}>
+          We are having some trouble to complete your request.
+        </FailureText>
+        <FailureText Color={themeValue}>Please yry again.</FailureText>
+        <FailureRetryButton onClick={this.onClickFailureVideos} type="button">
+          Retry
+        </FailureRetryButton>
+      </FailureContainer>
     )
   }
 
-  renderMainSectionDetailVideo = themeValue => {
+  renderInprogressVideos = () => (
+    <LoaderContainer>
+      <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
+    </LoaderContainer>
+  )
+
+  renderMainSectionVideos = themeValue => {
     const {selectedView} = this.state
     switch (selectedView) {
       case videoDisplayItem.success:
-        return this.renderSuccess(themeValue)
+        return this.renderSuccessVideos(themeValue)
       case videoDisplayItem.failure:
-        return this.renderFailure(themeValue)
+        return this.renderFailureVideos(themeValue)
       case videoDisplayItem.inProgress:
-        return this.renderInprogress(themeValue)
+        return this.renderInprogressVideos(themeValue)
       default:
         return null
     }
@@ -147,7 +216,23 @@ class VideosDetailItems extends Component {
 
   render() {
     return (
-      <MainPageVideos>{this.renderMainSectionDetailVideo()}</MainPageVideos>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {themeValue} = value
+
+          return (
+            <>
+              <MainPageVideos bgColor={themeValue}>
+                <Navbar />
+                <VideoDisplaySection>
+                  <SlideBarSection />
+                  {this.renderMainSectionVideos(themeValue)}
+                </VideoDisplaySection>
+              </MainPageVideos>
+            </>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

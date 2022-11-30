@@ -1,4 +1,6 @@
 import {formatDistanceToNow} from 'date-fns'
+import {Link} from 'react-router-dom'
+import './index.css'
 
 import {
   ListedEachVideo,
@@ -19,6 +21,7 @@ import NxtWatchContext from '../../context/NxtWatchContext'
 const HomeItems = props => {
   const {videoSectionValue} = props
   const {
+    id,
     title,
     thumbnailUrl,
     channel,
@@ -36,22 +39,24 @@ const HomeItems = props => {
         const years = formatDistanceToNow(new Date(publishedAt))
 
         return (
-          <ListedEachVideo bgColor={themeValue}>
-            <ThumbnailImage src={thumbnailUrl} alt="video thumbnail." />
-            <LowerThumbnailText>
-              <ProfileImg src={profileImageUrl} alt="channel logo" />
-              <TextSectionImg>
-                <HeadingText Color={themeValue}>{title}</HeadingText>
-                <ChannelName Color={themeValue}>{name}</ChannelName>
-                <LikeTimeSection>
-                  <ViewText Color={themeValue}>{viewCount} views</ViewText>
-                  <YearSectionUl>
-                    <LiVideoTime Color={themeValue}>{years}</LiVideoTime>
-                  </YearSectionUl>
-                </LikeTimeSection>
-              </TextSectionImg>
-            </LowerThumbnailText>
-          </ListedEachVideo>
+          <Link className="link-home" to={`videos/${id}`}>
+            <ListedEachVideo bgColor={themeValue}>
+              <ThumbnailImage src={thumbnailUrl} alt="video thumbnail." />
+              <LowerThumbnailText>
+                <ProfileImg src={profileImageUrl} alt="channel logo" />
+                <TextSectionImg>
+                  <HeadingText Color={themeValue}>{title}</HeadingText>
+                  <ChannelName Color={themeValue}>{name}</ChannelName>
+                  <LikeTimeSection>
+                    <ViewText Color={themeValue}>{viewCount} views</ViewText>
+                    <YearSectionUl>
+                      <LiVideoTime Color={themeValue}>{years}</LiVideoTime>
+                    </YearSectionUl>
+                  </LikeTimeSection>
+                </TextSectionImg>
+              </LowerThumbnailText>
+            </ListedEachVideo>
+          </Link>
         )
       }}
     </NxtWatchContext.Consumer>

@@ -4,6 +4,7 @@ import {Route, Switch} from 'react-router-dom'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import TokenCheckSection from './components/TokenCheckSection'
+import VideosDetailItems from './components/VideosDetailItems'
 
 import NxtWatchContext from './context/NxtWatchContext'
 
@@ -37,6 +38,11 @@ class App extends Component {
           <Switch>
             <Route exact path="/login" component={LoginForm} />
             <TokenCheckSection exact path="/" component={Home} />
+            <TokenCheckSection
+              exact
+              path="/videos/:id"
+              component={VideosDetailItems}
+            />
           </Switch>
         </>
         )

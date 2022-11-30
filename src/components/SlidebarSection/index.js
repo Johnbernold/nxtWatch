@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 import {AiFillHome} from 'react-icons/ai'
 import {FaFire} from 'react-icons/fa'
 import {SiYoutubegaming} from 'react-icons/si'
@@ -42,25 +43,32 @@ const SlideBarSection = () => (
       return (
         <SlideMainSection bgColor={themeValue}>
           <UnorderedSlide>
-            <ListSlide bgColor={bgColor}>
-              <AiFillHome className={`icon-all ${icon}`} />
-              <PageText color={color}>Home</PageText>
-            </ListSlide>
+            <Link to="/" className="link-navbar">
+              <ListSlide bgColor={bgColor}>
+                <AiFillHome className={`icon-all ${icon}`} />
+                <PageText color={color}>Home</PageText>
+              </ListSlide>
+            </Link>
+            <Link to="/trending" className="link-navbar">
+              <ListSlide bgColor={bgColor}>
+                <FaFire className={`icon-all ${icon}`} />
+                <PageText color={color}>Trending</PageText>
+              </ListSlide>
+            </Link>
 
-            <ListSlide bgColor={bgColor}>
-              <FaFire className={`icon-all ${icon}`} />
-              <PageText color={color}>Trending</PageText>
-            </ListSlide>
+            <Link to="/gaming" className="link-navbar">
+              <ListSlide bgColor={bgColor}>
+                <SiYoutubegaming className={`icon-all ${icon}`} />
+                <PageText color={color}>Gaming</PageText>
+              </ListSlide>
+            </Link>
 
-            <ListSlide bgColor={bgColor}>
-              <SiYoutubegaming className={`icon-all ${icon}`} />
-              <PageText color={color}>Gaming</PageText>
-            </ListSlide>
-
-            <ListSlide bgColor={bgColor}>
-              <BiAddToQueue className={`icon-all ${icon}`} />
-              <PageText color={color}>Saved videos</PageText>
-            </ListSlide>
+            <Link to="/saved-videos" className="link-navbar">
+              <ListSlide bgColor={bgColor}>
+                <BiAddToQueue className={`icon-all ${icon}`} />
+                <PageText color={color}>Saved videos</PageText>
+              </ListSlide>
+            </Link>
           </UnorderedSlide>
 
           <BottomSectionSlide>
