@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import TokenCheckSection from './components/TokenCheckSection'
 import VideosDetailItems from './components/VideosDetailItems'
+import SavedVideos from './components/SavedVideos'
 
 import NxtWatchContext from './context/NxtWatchContext'
 
@@ -27,7 +28,7 @@ class App extends Component {
 
     const findValue = savedValue.filter(eachValue => eachValue.id === value.id)
 
-    if (findValue.length > 1) {
+    if (findValue.length >= 1) {
       this.setState(prevState => ({
         savedValue: prevState.savedValue.filter(
           eachItem => eachItem.id !== value.id,
@@ -58,6 +59,11 @@ class App extends Component {
           <Switch>
             <Route exact path="/login" component={LoginForm} />
             <TokenCheckSection exact path="/" component={Home} />
+            <TokenCheckSection
+              exact
+              path="/saved-videos"
+              component={SavedVideos}
+            />
             <TokenCheckSection
               exact
               path="/videos/:id"

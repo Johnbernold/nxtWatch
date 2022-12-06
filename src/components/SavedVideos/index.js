@@ -10,6 +10,9 @@ import {
   SavedIconSection,
   HeadingBanner,
   VideosDisplaySection,
+  NoSaveVideos,
+  NoSaveImage,
+  NoSaveHeading,
 } from './styledComponent'
 
 import Navbar from '../Navbar'
@@ -41,7 +44,18 @@ const SavedVideos = () => {
     </NxtWatchContext.Consumer>
   )
 
-  const renderNoSavedVideos = () => {}
+  const renderNoSavedVideos = themeValue => (
+    <NoSaveVideos>
+      <NoSaveImage
+        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+        alt=" no saved videos"
+      />
+      <NoSaveHeading Color={themeValue}>No Saved Videos found</NoSaveHeading>
+      <NoVideosText Color={themeValue}>
+        You can save your videos while watching them
+      </NoVideosText>
+    </NoSaveVideos>
+  )
 
   return (
     <NxtWatchContext.Consumer>
@@ -56,7 +70,9 @@ const SavedVideos = () => {
               <Navbar />
               <VideoSection>
                 <SlideBarSection />
-                {success ? renderMainSectionSaved() : renderNoSavedVideos()}
+                {success
+                  ? renderMainSectionSaved()
+                  : renderNoSavedVideos(themeValue)}
               </VideoSection>
             </MainSavedVideos>
           </>

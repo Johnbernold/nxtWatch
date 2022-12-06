@@ -1,7 +1,17 @@
 import {formatDistanceToNow} from 'date-fns'
 import {Link} from 'react-router-dom'
 import NxtWatchContext from '../../context/NxtWatchContext'
-import {} from './styledComponent'
+import {
+  LiVideoSaved,
+  SavedThumbnailUrl,
+  SavedTextArea,
+  SavedTitle,
+  SavedNameChannel,
+  SavedViewsSection,
+  NoOfViewsSaved,
+  SavedDateMentionUl,
+  SavedDateLi,
+} from './styledComponent'
 
 const VideosSection = props => {
   const {videoListAdd} = props
