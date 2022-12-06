@@ -5,6 +5,9 @@ const NxtWatchContext = React.createContext({
   selectedSlideBar: '',
   changeTheme: () => {},
   selectedValue: () => {},
+  savedButton: () => {},
+  saveSelect: false,
+  savedValue: [],
 })
 
 export default NxtWatchContext

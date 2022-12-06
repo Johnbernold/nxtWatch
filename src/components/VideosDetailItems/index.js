@@ -47,7 +47,13 @@ const videoDisplayItem = {
 }
 
 class VideosDetailItems extends Component {
-  state = {selectedVideo: {}, selectedView: videoDisplayItem.none}
+  state = {
+    selectedVideo: {},
+    selectedView: videoDisplayItem.none,
+    likeTheme: false,
+    unLikeTheme: false,
+    savedSelected: false,
+  }
 
   componentDidMount() {
     this.getVideoDetailApi()
@@ -106,11 +112,43 @@ class VideosDetailItems extends Component {
     this.getVideoDetailApi()
   }
 
-  renderSuccessVideos = () => {
-    ;<NxtWatchContext.Consumer>
+  onClickLike = () => {
+    const {likeTheme} = this.state
+
+    if (likeTheme === true) {
+      this.setState({likeTheme: false})
+    } else {
+      this.setState({likeTheme: true, unLikeTheme: false})
+    }
+  }
+
+  onClickUnLike = () => {
+    const {unLikeTheme} = this.state
+
+    if (unLikeTheme === true) {
+      this.setState({unLikeTheme: false})
+    } else {
+      this.setState({likeTheme: false, unLikeTheme: true})
+    }
+  }
+
+  renderSuccessVideos = () => (
+    <NxtWatchContext.Consumer>
       {value => {
-        const {themeValue} = value
-        const {selectedVideo} = this.state
+        const {themeValue, savedButton} = value
+        const {
+          selectedVideo,
+          likeTheme,
+          unLikeTheme,
+          savedSelected,
+        } = this.state
+
+        const savedButtonAdd = () => {
+          savedButton(selectedVideo)
+          this.setState(prevValue => ({
+            savedSelected: !prevValue.savedSelected,
+          }))
+        }
 
         const {
           title,
@@ -140,15 +178,15 @@ class VideosDetailItems extends Component {
               </ViewsSection>
 
               <VideosLikeSection>
-                <ButtonClick Color={themeValue}>
+                <ButtonClick onClick={this.onClickLike} Color={likeTheme}>
                   <BiLike className="icon-videos" />
                   Like
                 </ButtonClick>
-                <ButtonClick Color={themeValue}>
+                <ButtonClick onClick={this.onClickUnLike} Color={unLikeTheme}>
                   <BiDislike className="icon-videos" />
                   Dislike
                 </ButtonClick>
-                <ButtonClick Color={themeValue}>
+                <ButtonClick onClick={savedButtonAdd} Color={savedSelected}>
                   <BiListPlus className="icon-videos" />
                   Save
                 </ButtonClick>
@@ -171,7 +209,7 @@ class VideosDetailItems extends Component {
         )
       }}
     </NxtWatchContext.Consumer>
-  }
+  )
 
   renderFailureVideos = themeValue => {
     const failureUrl = themeValue

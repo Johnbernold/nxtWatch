@@ -64,7 +64,7 @@ export const ButtonClick = styled.button`
   border: none;
   font-size: 12px;
   font-weight: 500;
-  color: ${props => (props.Color ? '#1e293b' : '#616e7c ')};
+  color: ${props => (props.Color ? '#4f46e5' : '#616e7c ')};
 `
 export const ProfileDetailsSection = styled.div`
   display: flex;

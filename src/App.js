@@ -12,7 +12,7 @@ import './App.css'
 
 // Replace your code here
 class App extends Component {
-  state = {themeValue: false, selectedSlideBar: 'HOME'}
+  state = {themeValue: false, selectedSlideBar: 'HOME', savedValue: []}
 
   changeTheme = () => {
     this.setState(prevState => ({themeValue: !prevState.themeValue}))
@@ -22,15 +22,35 @@ class App extends Component {
     this.setState({selectedSlideBar: value})
   }
 
+  savedListItem = value => {
+    const {savedValue} = this.state
+
+    const findValue = savedValue.filter(eachValue => eachValue.id === value.id)
+
+    if (findValue.length > 1) {
+      this.setState(prevState => ({
+        savedValue: prevState.savedValue.filter(
+          eachItem => eachItem.id !== value.id,
+        ),
+      }))
+    } else {
+      this.setState(prevState => ({
+        savedValue: [...prevState.savedValue, value],
+      }))
+    }
+  }
+
   render() {
-    const {themeValue, selectedSlideBar} = this.state
+    const {themeValue, selectedSlideBar, savedValue} = this.state
     return (
       <NxtWatchContext.Provider
         value={{
           themeValue,
           selectedSlideBar,
+          savedValue,
           selectedValue: this.selectedValue,
           changeTheme: this.changeTheme,
+          savedButton: this.savedListItem,
         }}
       >
         return(
