@@ -6,6 +6,7 @@ import Home from './components/Home'
 import TokenCheckSection from './components/TokenCheckSection'
 import VideosDetailItems from './components/VideosDetailItems'
 import SavedVideos from './components/SavedVideos'
+import Trending from './components/Trending'
 
 import NxtWatchContext from './context/NxtWatchContext'
 
@@ -25,6 +26,7 @@ class App extends Component {
 
   savedListItem = value => {
     const {savedValue} = this.state
+    console.log(value)
 
     const findValue = savedValue.filter(eachValue => eachValue.id === value.id)
 
@@ -43,6 +45,7 @@ class App extends Component {
 
   render() {
     const {themeValue, selectedSlideBar, savedValue} = this.state
+    console.log(savedValue)
     return (
       <NxtWatchContext.Provider
         value={{
@@ -69,6 +72,7 @@ class App extends Component {
               path="/videos/:id"
               component={VideosDetailItems}
             />
+            <TokenCheckSection exact path="/trending" component={Trending} />
           </Switch>
         </>
         )

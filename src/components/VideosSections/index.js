@@ -1,6 +1,7 @@
 import {formatDistanceToNow} from 'date-fns'
 import {Link} from 'react-router-dom'
 import NxtWatchContext from '../../context/NxtWatchContext'
+import './index.css'
 import {
   LiVideoSaved,
   SavedThumbnailUrl,
@@ -33,7 +34,7 @@ const VideosSection = props => {
       {value => {
         const {themeValue} = value
         return (
-          <Link to={`videos/${id}`}>
+          <Link className="link-text" to={`videos/${id}`}>
             <LiVideoSaved>
               <SavedThumbnailUrl src={thumbnailUrl} alt="video thumbnail." />
               <SavedTextArea>

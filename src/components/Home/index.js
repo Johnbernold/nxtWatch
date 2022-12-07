@@ -160,6 +160,7 @@ class Home extends Component {
 
   renderSuccess = themeValue => {
     const {selectedVideos} = this.state
+    console.log(selectedVideos)
     const checkForValue = selectedVideos.length === 0
     return checkForValue ? (
       <NoSearchResult>

@@ -13,6 +13,7 @@ import {
   NoSaveVideos,
   NoSaveImage,
   NoSaveHeading,
+  NoVideosText,
 } from './styledComponent'
 
 import Navbar from '../Navbar'

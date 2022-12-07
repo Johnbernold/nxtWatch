@@ -52,7 +52,6 @@ class VideosDetailItems extends Component {
     selectedView: videoDisplayItem.none,
     likeTheme: false,
     unLikeTheme: false,
-    savedSelected: false,
   }
 
   componentDidMount() {
@@ -135,19 +134,19 @@ class VideosDetailItems extends Component {
   renderSuccessVideos = () => (
     <NxtWatchContext.Consumer>
       {value => {
-        const {themeValue, savedButton} = value
-        const {
-          selectedVideo,
-          likeTheme,
-          unLikeTheme,
-          savedSelected,
-        } = this.state
+        const {themeValue, savedValue, savedButton} = value
+        const {selectedVideo, likeTheme, unLikeTheme} = this.state
+
+        let savedStatue = false
+
+        savedValue.forEach(eachValue => {
+          if (eachValue.id === selectedVideo.id) {
+            savedStatue = true
+          }
+        })
 
         const savedButtonAdd = () => {
           savedButton(selectedVideo)
-          this.setState(prevValue => ({
-            savedSelected: !prevValue.savedSelected,
-          }))
         }
 
         const {
@@ -186,7 +185,7 @@ class VideosDetailItems extends Component {
                   <BiDislike className="icon-videos" />
                   Dislike
                 </ButtonClick>
-                <ButtonClick onClick={savedButtonAdd} Color={savedSelected}>
+                <ButtonClick onClick={savedButtonAdd} Color={savedStatue}>
                   <BiListPlus className="icon-videos" />
                   Save
                 </ButtonClick>
