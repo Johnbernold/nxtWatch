@@ -72,7 +72,7 @@ const SlideBarSection = () => (
           </UnorderedSlide>
 
           <BottomSectionSlide>
-            <ContactAs>CONTACT US</ContactAs>
+            <ContactAs color={color}>CONTACT US</ContactAs>
             <FollowAsSection>
               <ContactAsLogo
                 alt="facebook logo"
@@ -87,7 +87,7 @@ const SlideBarSection = () => (
                 src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png "
               />
             </FollowAsSection>
-            <DescriptionText>
+            <DescriptionText color={color}>
               Enjoy Now to see your channel and recommendation!
             </DescriptionText>
           </BottomSectionSlide>

@@ -44,11 +44,11 @@ class Trending extends Component {
   })
 
   getTrendingApi = async () => {
+    const jwtToken = Cookies.get('jwt_token')
+
     this.setState({
       trendingDisplay: trendingView.inProgress,
     })
-
-    const jwtToken = Cookies.get('jwt_token')
 
     const options = {
       headers: {
@@ -64,7 +64,7 @@ class Trending extends Component {
     if (response.ok === true) {
       const data = await response.json()
 
-      const HomeVideos = data.videos.map(eachItem => ({
+      const trentedVideos = data.videos.map(eachItem => ({
         id: eachItem.id,
         title: eachItem.title,
         thumbnailUrl: eachItem.thumbnail_url,
@@ -74,20 +74,14 @@ class Trending extends Component {
       }))
 
       this.setState({
-        selectedTrendingLists: HomeVideos,
+        selectedTrendingLists: trentedVideos,
         trendingDisplay: trendingView.success,
       })
     } else {
-      this.setState({trendingDisplay: trendingView.failure})
+      this.setState({
+        trendingDisplay: trendingView.failure,
+      })
     }
-  }
-
-  onClickFailure = () => {
-    this.getHomeApi()
-  }
-
-  onRetrySearch = () => {
-    this.getHomeApi()
   }
 
   renderTrendingSuccess = themeValue => {
@@ -105,14 +99,18 @@ class Trending extends Component {
         </BannerSectionTrending>
         <DisplayVideosArea>
           {selectedTrendingLists.map(eachItem => (
-            <VideosSections trendingEachItem={eachItem} key={eachItem.id} />
+            <VideosSections videoListAdd={eachItem} key={eachItem.id} />
           ))}
         </DisplayVideosArea>
       </TrendingVideosDisplay>
     )
   }
 
-  renderTrendingFailure = themeValue => {
+  onClickFailure = () => {
+    this.getTrendingApi()
+  }
+
+  renderFailure = themeValue => {
     const failureUrl = themeValue
       ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
       : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
@@ -133,21 +131,22 @@ class Trending extends Component {
     )
   }
 
-  renderInprogress = () => (
+  renderTrendingInprogress = () => (
     <LoaderContainer>
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </LoaderContainer>
   )
 
-  renderMainSectionTrending = themeValue => {
+  renderMainSectionTrending = value => {
     const {trendingDisplay} = this.state
+
     switch (trendingDisplay) {
       case trendingView.success:
-        return this.renderTrendingSuccess(themeValue)
+        return this.renderTrendingSuccess(value)
       case trendingView.failure:
-        return this.renderTrendingFailure(themeValue)
+        return this.renderTrendingFailure(value)
       case trendingView.inProgress:
-        return this.renderTrendingInprogress(themeValue)
+        return this.renderTrendingInprogress(value)
       default:
         return null
     }

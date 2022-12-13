@@ -7,6 +7,8 @@ import TokenCheckSection from './components/TokenCheckSection'
 import VideosDetailItems from './components/VideosDetailItems'
 import SavedVideos from './components/SavedVideos'
 import Trending from './components/Trending'
+import Gaming from './components/Gaming'
+import NotFound from './components/NotFound'
 
 import NxtWatchContext from './context/NxtWatchContext'
 
@@ -73,6 +75,8 @@ class App extends Component {
               component={VideosDetailItems}
             />
             <TokenCheckSection exact path="/trending" component={Trending} />
+            <TokenCheckSection exact path="/gaming" component={Gaming} />
+            <Route component={NotFound} />
           </Switch>
         </>
         )

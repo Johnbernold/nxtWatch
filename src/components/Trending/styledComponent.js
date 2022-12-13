@@ -16,10 +16,12 @@ export const TrendingVideosDisplay = styled.div`
   height: 100vh;
 `
 export const BannerSectionTrending = styled.div`
-  height: 25vh;
   display: flex;
   align-items: center;
-
+  margin-left: 0px;
+  padding-left: 0px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-color: ${props => (props.bgColor ? '#1e293b' : '#ebebeb')};
 `
 export const TrendingIconSection = styled.div`
