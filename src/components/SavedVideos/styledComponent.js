@@ -4,7 +4,7 @@ export const MainSavedVideos = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: ${props => (props.bgColor ? '#181818' : ' #f9f9f9 ')};
+  background-color: ${props => (props.bgColor ? '#0f0f0f' : ' #f9f9f9 ')};
 `
 export const VideoSection = styled.div`
   display: flex;

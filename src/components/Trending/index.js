@@ -5,6 +5,8 @@ import Loader from 'react-loader-spinner'
 import {AiFillFire} from 'react-icons/ai'
 import NxtWatchContext from '../../context/NxtWatchContext'
 import VideosSections from '../VideosSections'
+import './index.css'
+
 import {
   MainTrendingSection,
   TrendingDownSection,
@@ -89,9 +91,9 @@ class Trending extends Component {
 
     return (
       <TrendingVideosDisplay>
-        <BannerSectionTrending bgColor={themeValue}>
+        <BannerSectionTrending data-testid="banner" bgColor={themeValue}>
           <TrendingIconSection bgColor={themeValue}>
-            <AiFillFire />
+            <AiFillFire className="bg-color" />
           </TrendingIconSection>
           <HeadingTrendingBanner Color={themeValue}>
             Trending
@@ -132,7 +134,7 @@ class Trending extends Component {
   }
 
   renderTrendingInprogress = () => (
-    <LoaderContainer>
+    <LoaderContainer data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </LoaderContainer>
   )
@@ -160,7 +162,7 @@ class Trending extends Component {
 
           return (
             <>
-              <MainTrendingSection bgColor={themeValue}>
+              <MainTrendingSection data-testid="trending" bgColor={themeValue}>
                 <Navbar />
                 <TrendingDownSection>
                   <SlideBarSection />

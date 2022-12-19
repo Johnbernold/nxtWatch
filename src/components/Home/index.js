@@ -151,6 +151,7 @@ class Home extends Component {
           onClick={this.onClickValue}
           bgColor={themeValue}
           type="button"
+          data-testid="searchButton"
         >
           <AiOutlineSearch />
         </SearchButton>
@@ -158,101 +159,119 @@ class Home extends Component {
     )
   }
 
-  renderSuccess = themeValue => {
-    const {selectedVideos} = this.state
-    console.log(selectedVideos)
-    const checkForValue = selectedVideos.length === 0
-    return checkForValue ? (
-      <NoSearchResult>
-        <NoResultImg
-          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png "
-          alt=" no videos"
-        />
-        <NoSearchHeading Color={themeValue}>
-          No Search results found
-        </NoSearchHeading>
-        <NoSearchText Color={themeValue}>
-          Try different key words or remove search filter
-        </NoSearchText>
+  renderSuccess = () => (
+    <NxtWatchContext.Consumer>
+      {value => {
+        const {themeValue} = value
 
-        <NoSearchRetryButton onClick={this.onRetrySearch} type="button">
-          Retry
-        </NoSearchRetryButton>
-      </NoSearchResult>
-    ) : (
-      <HomeVideosDisplay>
-        {selectedVideos.map(eachItem => (
-          <HomeItems videoSectionValue={eachItem} key={eachItem.id} />
-        ))}
-      </HomeVideosDisplay>
-    )
-  }
+        const {selectedVideos} = this.state
 
-  renderFailure = themeValue => {
-    const failureUrl = themeValue
-      ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
-      : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
-    return (
-      <FailureContainer>
-        <FailureImage src={failureUrl} alt="failure view" />
-        <FailureHeading Color={themeValue}>
-          Oops! Something Went Wrong
-        </FailureHeading>
-        <FailureText Color={themeValue}>
-          We are having some trouble to complete your request.
-        </FailureText>
-        <FailureText Color={themeValue}>Please yry again.</FailureText>
-        <FailureRetryButton onClick={this.onClickFailure} type="button">
-          Retry
-        </FailureRetryButton>
-      </FailureContainer>
-    )
-  }
+        const checkForValue = selectedVideos.length === 0
+        return checkForValue ? (
+          <NoSearchResult>
+            <NoResultImg
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png "
+              alt=" no videos"
+            />
+            <NoSearchHeading Color={themeValue}>
+              No Search results found
+            </NoSearchHeading>
+            <NoSearchText Color={themeValue}>
+              Try different key words or remove search filter
+            </NoSearchText>
+
+            <NoSearchRetryButton onClick={this.onRetrySearch} type="button">
+              Retry
+            </NoSearchRetryButton>
+          </NoSearchResult>
+        ) : (
+          <HomeVideosDisplay>
+            {selectedVideos.map(eachItem => (
+              <HomeItems videoSectionValue={eachItem} key={eachItem.id} />
+            ))}
+          </HomeVideosDisplay>
+        )
+      }}
+    </NxtWatchContext.Consumer>
+  )
+
+  renderFailure = () => (
+    <NxtWatchContext.Consumer>
+      {value => {
+        const {themeValue} = value
+        const failureUrl = themeValue
+          ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+          : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+        return (
+          <FailureContainer>
+            <FailureImage src={failureUrl} alt="failure view" />
+            <FailureHeading Color={themeValue}>
+              Oops! Something Went Wrong
+            </FailureHeading>
+            <FailureText Color={themeValue}>
+              We are having some trouble to complete your request.
+            </FailureText>
+            <FailureText Color={themeValue}>Please yry again.</FailureText>
+            <FailureRetryButton onClick={this.onClickFailure} type="button">
+              Retry
+            </FailureRetryButton>
+          </FailureContainer>
+        )
+      }}
+    </NxtWatchContext.Consumer>
+  )
 
   renderInprogress = () => (
-    <LoaderContainer>
+    <LoaderContainer data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </LoaderContainer>
   )
 
-  render() {
-    const {bannerView} = this.state
+  bannerViewSection = () => (
+    <NxtWatchContext.Consumer>
+      {value => {
+        const {themeValue} = value
+        const {bannerView} = this.state
+        const logoUrl = themeValue
+          ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+          : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+        return (
+          bannerView && (
+            <BannerHome data-testid="banner">
+              <BannerTextSection>
+                <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
+                <ParaBanner>Buy Nxt Watch Premium plans with UPI</ParaBanner>
+                <BannerHomeButton>GET IT NOW</BannerHomeButton>
+              </BannerTextSection>
+              <BannerCloseButton
+                type="button"
+                onClick={this.onClickBannerClose}
+                data-testid="close"
+              >
+                <AiOutlineClose />
+              </BannerCloseButton>
+            </BannerHome>
+          )
+        )
+      }}
+    </NxtWatchContext.Consumer>
+  )
 
+  render() {
     return (
       <NxtWatchContext.Consumer>
         {value => {
           const {themeValue} = value
-
-          const logoUrl = themeValue
-            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-
           return (
             <>
-              <MainHomeSection bgColor={themeValue}>
+              <MainHomeSection bgColor={themeValue} data-testid="home">
                 <Navbar />
                 <HomeSection>
                   <SlideBarSection />
                   <HomeDisplaySection>
-                    {bannerView && (
-                      <BannerHome>
-                        <BannerTextSection>
-                          <BannerHomeLogo src={logoUrl} alt="nxt watch logo" />
-                          <ParaBanner>
-                            Buy Nxt Watch Premium plans with UPI
-                          </ParaBanner>
-                          <BannerHomeButton>GET IT NOW</BannerHomeButton>
-                        </BannerTextSection>
-                        <BannerCloseButton
-                          type="button"
-                          onClick={this.onClickBannerClose}
-                        >
-                          <AiOutlineClose />
-                        </BannerCloseButton>
-                      </BannerHome>
-                    )}
-                    {this.searchSection(themeValue)}
-                    {this.renderMainSectionHome(themeValue)}
+                    {this.bannerViewSection()}
+
+                    {this.searchSection()}
                   </HomeDisplaySection>
                 </HomeSection>
               </MainHomeSection>

@@ -259,7 +259,10 @@ class VideosDetailItems extends Component {
 
           return (
             <>
-              <MainPageVideos bgColor={themeValue}>
+              <MainPageVideos
+                data-testid="videoItemDetails"
+                bgColor={themeValue}
+              >
                 <Navbar />
                 <VideoDisplaySection>
                   <SlideBarSection />

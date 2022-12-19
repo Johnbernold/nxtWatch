@@ -46,13 +46,13 @@ export const FollowAsSection = styled.div`
   margin-left: 0px;
 `
 export const ContactAs = styled.h1`
-  color: ${props => (props.color ? ' #f1f5f9' : '#231f20')};
+  color: ${props => props.color};
   font-size:12px;
   font-family:"Roboto;"
   font-weight:600;
 `
 export const DescriptionText = styled.p`
-  color: ${props => (props.color ? ' #f1f5f9' : '#231f20')};
+  color: ${props => props.color};
   font-size: 14px;
   font-family: 'Roboto';
   font-weight: 500;

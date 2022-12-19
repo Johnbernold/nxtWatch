@@ -67,7 +67,7 @@ const SavedVideos = () => {
 
         return (
           <>
-            <MainSavedVideos bgColor={themeValue}>
+            <MainSavedVideos data-testid="savedVideos" bgColor={themeValue}>
               <Navbar />
               <VideoSection>
                 <SlideBarSection />

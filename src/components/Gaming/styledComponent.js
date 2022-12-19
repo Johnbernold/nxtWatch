@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const MainTrendingSection = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${props => (props.bgColor ? '#181818' : ' #f9f9f9 ')};
+  background-color: ${props => (props.bgColor ? '#0f0f0f' : ' #f9f9f9 ')};
 `
 
 export const TrendingDownSection = styled.div`

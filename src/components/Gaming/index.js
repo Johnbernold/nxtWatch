@@ -2,9 +2,11 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 
-import {AiFillFire} from 'react-icons/ai'
+import {SiYoutubegaming} from 'react-icons/si'
 import NxtWatchContext from '../../context/NxtWatchContext'
 import GamingItems from '../GamingItems'
+import './index.css'
+
 import {
   MainTrendingSection,
   TrendingDownSection,
@@ -82,9 +84,9 @@ class Gaming extends Component {
     const {selectedLists} = this.state
     return (
       <TrendingVideosDisplay>
-        <BannerSectionTrending bgColor={themeValue}>
+        <BannerSectionTrending data-testid="banner" bgColor={themeValue}>
           <TrendingIconSection bgColor={themeValue}>
-            <AiFillFire />
+            <SiYoutubegaming className="bg-icons" />
           </TrendingIconSection>
           <HeadingTrendingBanner Color={themeValue}>
             Gaming
@@ -121,7 +123,7 @@ class Gaming extends Component {
   }
 
   renderInprogress = () => (
-    <LoaderContainer>
+    <LoaderContainer data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </LoaderContainer>
   )
@@ -149,7 +151,7 @@ class Gaming extends Component {
 
           return (
             <>
-              <MainTrendingSection bgColor={themeValue}>
+              <MainTrendingSection data-testid="gaming" bgColor={themeValue}>
                 <Navbar />
                 <TrendingDownSection>
                   <SlideBarSection />

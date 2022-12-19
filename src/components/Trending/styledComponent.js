@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const MainTrendingSection = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${props => (props.bgColor ? '#181818' : ' #f9f9f9 ')};
+  background-color: ${props => (props.bgColor ? '#0f0f0f' : ' #f9f9f9 ')};
 `
 
 export const TrendingDownSection = styled.div`
@@ -13,7 +13,6 @@ export const TrendingDownSection = styled.div`
 export const TrendingVideosDisplay = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
 `
 export const BannerSectionTrending = styled.div`
   display: flex;
@@ -44,14 +43,13 @@ export const HeadingTrendingBanner = styled.h1`
 `
 export const DisplayVideosArea = styled.ul`
   width: 100%;
-  height: 100vh;
 `
 export const FailureContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  height: 100vh;
+
   width: 100%;
 `
 export const FailureImage = styled.img`

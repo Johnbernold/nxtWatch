@@ -15,7 +15,6 @@ export const InputSection = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 15px;
-
   box-shadow: 0px 4px 16px 0px #bfbfbf;
   background-color: ${props => (props.bgColor ? '#0f0f0f' : ' #f9f9f9')};
 `
@@ -56,7 +55,7 @@ export const LabelCheckbox = styled.label`
   font-size: 15px;
   font-weight: 500;
   font-family: 'Roboto';
-  color: ${props => (props.textColor ? ' #e2e8f0' : '#475569')};
+  color: ${props => (props.textColor ? '#e2e8f0' : '#475569')};
 `
 export const LoginButton = styled.button`
   font-size: 15px;

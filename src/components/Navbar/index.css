@@ -1,0 +1,23 @@
+.darkTheme {
+  border: 2px solid #ffffff;
+  background-color: transparent;
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #f1f1f1;
+  margin-left: 10px;
+}
+
+.lightTheme {
+  border: 2px solid #1e293b;
+  background-color: transparent;
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #1e293b;
+  margin-left: 10px;
+}
+
+.white_color {
+    color: #ffffff;
+}
