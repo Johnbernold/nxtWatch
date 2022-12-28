@@ -20,6 +20,7 @@ import NxtWatchContext from '../../context/NxtWatchContext'
 
 const HomeItems = props => {
   const {videoSectionValue} = props
+  console.log(videoSectionValue)
   const {
     id,
     title,

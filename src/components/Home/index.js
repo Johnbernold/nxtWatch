@@ -165,8 +165,9 @@ class Home extends Component {
         const {themeValue} = value
 
         const {selectedVideos} = this.state
-
+        console.log(selectedVideos)
         const checkForValue = selectedVideos.length === 0
+        console.log(checkForValue)
         return checkForValue ? (
           <NoSearchResult>
             <NoResultImg

@@ -59,7 +59,6 @@ class App extends Component {
           savedButton: this.savedListItem,
         }}
       >
-       
         <>
           <Switch>
             <Route exact path="/login" component={LoginForm} />
@@ -79,7 +78,6 @@ class App extends Component {
             <Route component={NotFound} />
           </Switch>
         </>
-        
       </NxtWatchContext.Provider>
     )
   }
